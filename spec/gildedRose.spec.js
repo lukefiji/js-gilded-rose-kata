@@ -1,20 +1,23 @@
+const expect = require("expect");
+const { Shop, Item } = require("../src/gildedRose.js");
+
 describe("Gilded Rose", () => {
   it("should insert an item named foo", () => {
     const gildedRose = new Shop([new Item("foo", 0, 0)]);
     const items = gildedRose.updateQuality();
-    expect(items[0].name).toEqual("foo");
+    expect(items[0].name).toBe("foo");
   });
 
   it("should have a sellIn value which denotes the number of days we have to sell the item", () => {
     const gildedRose = new Shop([new Item("test", 10, 0)]);
     const items = gildedRose.updateQuality();
-    expect(items[0].sellIn).toBeDefined();
+    expect(items[0].sellIn).toExist();
   });
 
   it("should have have a quality value which denotes how valuable the item is", () => {
     const gildedRose = new Shop([new Item("test", 11, 20)]);
     const items = gildedRose.updateQuality();
-    expect(items[0].quality).toBeDefined();
+    expect(items[0].quality).toExist();
   });
 
   it("should lower sellin and quality at the end of every day", () => {
@@ -74,10 +77,10 @@ describe("Gilded Rose", () => {
     // More than 10 days
     expect(items[0].quality).toBe(11);
 
-    // Less than 10 days
+    // 10 days or lsee
     expect(items[1].quality).toBe(22);
 
-    // More than 10 days
+    // Less than 3 days
     expect(items[2].quality).toBe(33);
 
     // More than 10 days
