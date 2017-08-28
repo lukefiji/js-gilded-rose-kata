@@ -1,6 +1,8 @@
 const expect = require("expect");
 const { Shop, Item } = require("../src/gildedRose.js");
 
+// Item(name, sellIn, quality)
+
 describe("Gilded Rose", () => {
   it("should insert an item named foo", () => {
     const gildedRose = new Shop([new Item("foo", 0, 0)]);
@@ -65,7 +67,7 @@ describe("Gilded Rose", () => {
     expect(items[0].quality).toBe(80);
   });
 
-  it("should decrease 'Backstage passes' quality as it's sell_in value decreases; quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but quality drops to 0 after the concert", () => {
+  it("should decrease 'Backstage Passes' quality as it's sellIn value decreases; quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but quality drops to 0 after the concert", () => {
     const gildedRose = new Shop([
       new Item("Backstage Passes", 20, 10),
       new Item("Backstage Passes", 10, 20),
@@ -85,5 +87,18 @@ describe("Gilded Rose", () => {
 
     // More than 10 days
     expect(items[3].quality).toBe(0);
+  });
+
+  it("should decrease of quality of 'Conjured' items twice as fast", () => {
+    const gildedRose = new Shop([
+      new Item("Regular item", 15, 17),
+      new Item("Conjured item", 20, 30),
+      new Item("Conjured expired item", -1, 24)
+    ]);
+    const items = gildedRose.updateQuality();
+
+    expect(items[0].quality).toBe(16);
+    expect(items[1].quality).toBe(28);
+    expect(items[2].quality).toBe(20);
   });
 });
